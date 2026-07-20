@@ -11,6 +11,13 @@ function App(){
 
     }
     )
+    setInput("")
+    setTime("12:00")
+  }
+  function deleteTask(key){
+    let temp={...task}
+    delete temp[key]
+    setTasks(temp)
   }
 
   return(<>
@@ -23,9 +30,15 @@ function App(){
         
         return <div key={key}>
 
-          `${key}:${value}`
+          {`${key}:${value}`}
+          <button onClick={()=>deleteTask(key)} >Delete</button>
         </div>
-      }):"No task added yet"}
+      }):
+      <div>
+        "No task added yet"
+
+      </div>
+}
        
   </>)
 }
