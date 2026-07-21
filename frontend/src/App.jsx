@@ -3,6 +3,7 @@ import { Route,Routes } from "react-router-dom";
 import Protected from "./components/Protected";
 import Dashboard from "./components/dashboard";
 import Login from "./components/Login";
+import Signup from "./components/signup";
 
 function App(){
 
@@ -14,6 +15,7 @@ function App(){
    {<Protected>{<Dashboard/>}</Protected>}>
 
    </Route>
+    <Route path="/signup" element={<Signup/>}/>
     </Routes>
        
   </>)

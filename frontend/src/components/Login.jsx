@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import Signup from "./signup";
 
 function Login(){
     const [password,setPassword]=useState("")
     const [email,setEmail]=useState("")
     const [error, setError] = useState("");
     const navigate=useNavigate()
+    function signupnav(){
+        navigate("/signup")
+    }
     async function submitdetails(e){
         e.preventDefault();
         setError("")
@@ -22,12 +26,8 @@ function Login(){
        if (response.status===404){
         setError("No user found") 
         return 
-
        }
-       if (response.status === 404) {
-    setError("No user found");
-    return;
-}
+      
 
 if (response.status === 401) {
     setError("Incorrect password");
@@ -62,6 +62,7 @@ if (!response.ok) {
         <button type="submit">Submit</button> 
         </form>
         {error && <p>{error}</p>}
+        <button onClick={signupnav}>Sign-up</button>
     </>)
 }
 
