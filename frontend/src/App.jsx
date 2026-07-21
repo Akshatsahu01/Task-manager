@@ -1,44 +1,20 @@
 import { useEffect, useState } from "react";
+import { Route,Routes } from "react-router-dom";
+import Protected from "./components/Protected";
+import Dashboard from "./components/dashboard";
+import Login from "./components/Login";
 
 function App(){
-  const [task,setTasks]=useState({})
-  const [input,setInput]=useState("")
-  const [time,setTime]=useState("12:00")
-  function updateTask(){
-    setTasks({
-      ...task,
-      [input]:time
 
-    }
-    )
-    setInput("")
-    setTime("12:00")
-  }
-  function deleteTask(key){
-    let temp={...task}
-    delete temp[key]
-    setTasks(temp)
-  }
 
   return(<>
-      <h1>Task manager</h1>
-      <h3>Manage your task easily</h3>
-      <input type="text"  value={input} onChange={(e)=>setInput(e.target.value)}/>
-      <input type="time"  value={time} onChange={(e)=>setTime(e.target.value)}/>
-      <button onClick={updateTask}>Add Task</button>
-      {Object.keys(task).length>0?Object.entries(task).map(([key,value])=>{
-        
-        return <div key={key}>
+    <Routes>
+   <Route path="/login" element={<Login/>}></Route>
+   <Route path="/dashboard" element=
+   {<Protected>{<Dashboard/>}</Protected>}>
 
-          {`${key}:${value}`}
-          <button onClick={()=>deleteTask(key)} >Delete</button>
-        </div>
-      }):
-      <div>
-        "No task added yet"
-
-      </div>
-}
+   </Route>
+    </Routes>
        
   </>)
 }
