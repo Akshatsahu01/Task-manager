@@ -10,10 +10,15 @@ function Login(){
     function signupnav(){
         navigate("/signup")
     }
+
     async function submitdetails(e){
         e.preventDefault();
         setError("")
-       const response =await fetch("http://localhost:5000/login",{
+            if (!email || !password){
+      setError("Please enter correct Email or Password")
+      return
+    }
+       const response =await fetch(`${import.meta.env.VITE_BACKEND_URI}/login`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"

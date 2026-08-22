@@ -6,11 +6,19 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+      function loginav(){
+        navigate("/login")
+    }
 
   async function submitdetails(e) {
     e.preventDefault();
     setError("");
-    const response = await fetch("http://localhost:5000/signup", {
+    if (!email || !password){
+      setError("Please enter correct Email or Password")
+      return
+    }
+    
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -21,19 +29,18 @@ function Signup() {
         task: {},
       }),
     });
-
+    if (response.status===400){
+      setError("User already exist") 
+      return 
+    }
+    if (response.status===500){
+      setError("Internal server error") 
+      return 
+    }
     if (!response.ok) {
       setError("Something went wrong");
       return;
     }
-      if (response.status===400){
-        setError("User already exist") 
-        return 
-       }
-      if (response.status===500){
-        setError("Internal server error") 
-        return 
-       }
     if (response.status === 201) {
       const data = await response.json();
       const token = data.token;
@@ -63,6 +70,7 @@ function Signup() {
             />
           </div>
           <button type="submit">Submit</button>
+          <button onClick={loginav}>Login</button>
         </form>
         {error && <p>{error}</p>}
         
