@@ -1,18 +1,12 @@
-import express from "express"
-import cors from "cors"
-import dotenv from "dotenv"
-dotenv.config() 
-import jwt from "jsonwebtoken"
-import User from "./modles/usermodel.js"
-import mongoose from "mongoose";
-const SECRET_KEY=process.env.JWT_SECRET_KEY
-const app=express()
-app.use(express.json())
-app.use(cors())
+import express from "express";
+import cors from "cors";
+import jwt from "jsonwebtoken";
+import User from "./models/usermodel.js";
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("Database Connected"))
-  .catch(err => console.log(err));
+const SECRET_KEY = process.env.JWT_SECRET_KEY;
+const app = express();
+app.use(express.json());
+app.use(cors());
 
 function verifyToken(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -54,11 +48,7 @@ app.post("/signup", async (req, res) => {
       task,
     });
 
-    const token = jwt.sign(
-      { id: user._id },
-      SECRET_KEY,
-      { expiresIn: "1h" }
-    );
+    const token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: "1h" });
 
     res.status(201).json({
       message: "Signup successful",
@@ -89,11 +79,7 @@ app.post("/login", async (req, res) => {
       });
     }
 
-    const token = jwt.sign(
-      { id: user._id },
-      SECRET_KEY,
-      { expiresIn: "1h" }
-    );
+    const token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: "1h" });
 
     res.status(200).json({
       message: "Login successful",
@@ -108,7 +94,7 @@ app.post("/login", async (req, res) => {
 
 app.get("/user", verifyToken, async (req, res) => {
   const user = await User.findById(req.user.id);
-     if (!user) {
+  if (!user) {
     return res.status(404).json({
       message: "User not found",
     });
@@ -119,7 +105,6 @@ app.get("/user", verifyToken, async (req, res) => {
   });
 });
 
-
 app.put("/user", verifyToken, async (req, res) => {
   try {
     const { task } = req.body;
@@ -127,7 +112,7 @@ app.put("/user", verifyToken, async (req, res) => {
     const user = await User.findByIdAndUpdate(
       req.user.id,
       { task },
-      { new: true }
+      { new: true },
     );
 
     if (!user) {
@@ -147,6 +132,4 @@ app.put("/user", verifyToken, async (req, res) => {
   }
 });
 
-app.listen(5000,()=>{
-    console.log("server is running on Port 5000")
-})
+export default app;
