@@ -121,4 +121,8 @@ function Dashboard() {
   );
 }
 
+function createInitialTasks() {
+  return {};
+}
+
 export default Dashboard;
