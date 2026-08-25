@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
 function Dashboard() {
-  const [task, setTasks] = useState({});
+  const [task, setTasks] = useState(createInitialTasks);
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
   const navigate = useNavigate();
@@ -118,6 +118,10 @@ function Dashboard() {
       </button>
     </main>
   );
+}
+
+function createInitialTasks() {
+  return {};
 }
 
 export default Dashboard;
