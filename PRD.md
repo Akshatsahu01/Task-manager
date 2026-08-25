@@ -56,6 +56,36 @@ The primary user is an individual who wants a lightweight personal task list.
 - Deleting a task updates the local state and persists the complete task object.
 - Requests to read or update user data require a Bearer JWT.
 
+## 6.1 JavaScript Concepts Demonstrated
+
+The implementation intentionally demonstrates the following JavaScript concepts in the frontend:
+
+### Function Hoisting
+
+In `frontend/src/components/dashboard.jsx`, `createInitialTasks()` is called in the `useState` initializer before the function declaration appears later in the file:
+
+```js
+const [task, setTasks] = useState(createInitialTasks());
+
+function createInitialTasks() {
+	return {};
+}
+```
+
+This works because function declarations are hoisted during JavaScript execution. The same file also calls `saveTasks()` from `updateTask()` and `deleteTask()` before the `saveTasks` declaration in source order.
+
+### JavaScript Event Loop
+
+The browser event loop coordinates synchronous React code with asynchronous work. User events such as form submission and button clicks run their handlers as callbacks. Network operations started by `fetch` complete asynchronously, allowing the browser to continue handling other work before the response is processed.
+
+### Promises and `async`/`await`
+
+`fetch()` returns a Promise. The async functions `submitdetails`, `varify`, `updateTask`, `deleteTask`, and `saveTasks` use `await` to pause their own execution until network Promises settle, without blocking the browser's main thread. The response is then checked before updating React state or displaying an error.
+
+### Callbacks
+
+The project uses callbacks in several places: React's `useEffect(() => { ... })` callback, form and button event handlers, input `onChange` handlers, and the `map(([key, value]) => { ... })` callback used to render tasks. These functions are passed to React or array methods and invoked later by the relevant event, lifecycle, or collection operation.
+
 ### Navigation and UI
 
 - `/` redirects to `/login`.
