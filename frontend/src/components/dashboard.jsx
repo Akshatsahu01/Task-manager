@@ -41,8 +41,10 @@ function Dashboard() {
       [input]: time,
     };
     await saveTasks(updatedTasks);
-    setInput("");
-    setTime("12:00");
+    setTimeout(() => {
+      setInput("");
+      setTime("12:00");
+    }, 0);
   }
   async function deleteTask(key) {
     let temp = { ...task };
