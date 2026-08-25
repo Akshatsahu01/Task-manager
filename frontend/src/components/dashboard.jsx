@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import { createDefaultTasks } from "../utils/hoisting";
 
 function Dashboard() {
-  const [task, setTasks] = useState(createInitialTasks());
+  const [task, setTasks] = useState(createDefaultTasks());
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
   const navigate = useNavigate();
